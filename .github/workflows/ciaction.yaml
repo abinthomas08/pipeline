@@ -1,14 +1,15 @@
-name: Maven build, test and publish
+name: Maven Build, Test and Publish
 
 on: push
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: action-secrets  # ✅ name of your environment where secrets exist
 
     permissions:
       contents: read
-      packages: write  # Needed to publish to GitHub Packages
+      packages: write  # ✅ required for publishing to GitHub Packages
 
     steps:
       - name: Checkout code
@@ -24,11 +25,11 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
-      - name: List build artifacts
-        run: ls -R target
-
       - name: Run tests
         run: mvn -B test
+
+      - name: List build artifacts
+        run: ls -R target
 
       - name: Upload build artifact to Actions
         uses: actions/upload-artifact@v4
@@ -38,5 +39,8 @@ jobs:
 
       - name: Publish to GitHub Packages
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_MAVEN }}
-        run: mvn deploy --settings .github/workflows/settings.xml
+          USER_NAME: ${{ secrets.USER_NAME }}
+          PAT_MAVEN: ${{ secrets.PAT_MAVEN }}
+        run: |
+          echo "Deploying as $USER_NAME"
+          mvn --batch-mode deploy --settings .github/workflows/settings.xml
