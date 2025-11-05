@@ -5,11 +5,10 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: action-secrets  # ✅ name of your environment where secrets exist
 
     permissions:
       contents: read
-      packages: write  # ✅ required for publishing to GitHub Packages
+      packages: write  # ✅ required to publish to GitHub Packages
 
     steps:
       - name: Checkout code
@@ -40,7 +39,7 @@ jobs:
       - name: Publish to GitHub Packages
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
-          PAT_MAVEN: ${{ secrets.PAT_MAVEN }}
+          PAT: ${{ secrets.PAT }}
         run: |
           echo "Deploying as $USER_NAME"
           mvn --batch-mode deploy --settings .github/workflows/settings.xml
