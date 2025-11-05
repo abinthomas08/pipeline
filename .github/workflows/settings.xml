@@ -1,0 +1,9 @@
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>${env.USER_NAME}</username>
+      <password>${env.PAT_MAVEN}</password>
+    </server>
+  </servers>
+</settings>
