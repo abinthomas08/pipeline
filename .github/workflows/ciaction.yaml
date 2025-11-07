@@ -1,4 +1,4 @@
-name: Maven Build, Test and Publish
+name: Maven Build, Test and Publish, self hosted
 
 on: push
 
